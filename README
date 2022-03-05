@@ -1,0 +1,49 @@
+libcrypt -- library for systems lacking proper crypt(3) support.
+
+This is a minimal libcrypt, which comes from musl-1.2.2 release, with very minimal changes
+to make it work as a separate library. It is needed on systems which lack proper crypt(3)
+in their libcs, notably, Android (at the time of writing, version 11 and earlier did not come
+with crypt(3) at all in bionic).
+
+SUPPORT
+
+Supports all crypt(3) schemes which comes with musl libc:
+- DES/Unix crypt
+- MD5
+- SHA256
+- SHA512
+- Blowfish (which glibc did never support)
+
+Additionally, it supports these functions:
+- crypt_r(3)
+- DES encrypt(3) only
+
+BUILDING
+
+Build with usual `make`. It will create libcrypt.a, which you can install anywhere, where your
+software looks for that library. To build for Android, you need to get Android NDK working,
+adjust environment to build target arch library with NDK this way (examples are given for
+host=linux-x86_64 and target=aarch64):
+
+	export PATH=path/to/NDK/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH
+
+Then invoke `make` with your target triple name (example for API 21):
+
+	make CC=aarch64-linux-android21-clang
+
+This will create libcrypt.a targeting Android aarch64 API 21. Then, you have to install two files:
+
+	cp -a libcrypt.a path/to/NDK/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/21/
+	cp -a crypt.h path/to/NDK/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/
+
+Your libcrypt installation for target is complete. You can now build software which requires it.
+
+To install on other hosts, just copy libcrypt.a and crypt.h into appropriate places, usually /usr/lib and /usr/include respectively.
+
+Type `make all` to build cryptpw test program. You can then run it to see if libcrypt.a is properly working.
+Optional argument specifies salt to be used. Default is to use MD5.
+
+COPYRIGHT
+
+MIT License same as musl's, see COPYRIGHT file, with changes done by me.
+libsupp.a sources: MIT License.
