@@ -4,7 +4,7 @@
  * original md5 crypt design is from Poul-Henning Kamp
  * this implementation was created based on the code in freebsd
  * at least 32bit int is assumed, key is limited and $1$ prefix is mandatory,
- * on error "*" is returned
+ * on error "*0" is returned
  */
 #include <string.h>
 #include <stdint.h>
@@ -280,6 +280,6 @@ char *__crypt_md5(const char *key, const char *setting, char *output)
 	/* self test and stack cleanup */
 	q = md5crypt(testkey, testsetting, testbuf);
 	if (!p || q != testbuf || memcmp(testbuf, testhash, sizeof testhash))
-		return "*";
+		return "*0";
 	return p;
 }

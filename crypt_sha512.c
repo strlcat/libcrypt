@@ -5,7 +5,7 @@
  * in this implementation at least 32bit int is assumed,
  * key length is limited, the $6$ prefix is mandatory, '\n' and ':' is rejected
  * in the salt and rounds= setting must contain a valid iteration count,
- * on error "*" is returned.
+ * on error "*0" is returned.
  */
 #include <ctype.h>
 #include <stdlib.h>
@@ -366,6 +366,6 @@ char *__crypt_sha512(const char *key, const char *setting, char *output)
 	/* self test and stack cleanup */
 	q = sha512crypt(testkey, testsetting, testbuf);
 	if (!p || q != testbuf || memcmp(testbuf, testhash, sizeof testhash))
-		return "*";
+		return "*0";
 	return p;
 }

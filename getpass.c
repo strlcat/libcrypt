@@ -4,7 +4,7 @@
 
 char *xgetpass(const char *prompt)
 {
-	static char pwd[256];
+	static char pwd[512];
 	struct getpasswd_state getps;
 
 	memset(pwd, 0, sizeof(pwd));

@@ -802,5 +802,5 @@ char *__crypt_blowfish(const char *key, const char *setting, char *output)
 	if (ok && retval)
 		return retval;
 
-	return "*";
+	return "*0";
 }

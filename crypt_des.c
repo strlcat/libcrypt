@@ -1012,5 +1012,5 @@ char *__crypt_des(const char *key, const char *setting, char *output)
 	if (p && !strcmp(p, test_hash) && retval)
 		return retval;
 
-	return (setting[0]=='*') ? "x" : "*";
+	return (setting[0]=='*') ? "x0" : "*0";
 }
